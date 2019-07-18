@@ -5,7 +5,7 @@ target/
 !**/src/test/**
 
 ### STS ###
-.apt_generated
+.apt_generatedgit commit -m "first commit":
 .classpath
 .factorypath
 .project
