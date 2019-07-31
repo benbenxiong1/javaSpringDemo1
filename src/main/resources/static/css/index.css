@@ -1,0 +1,16 @@
+.box{
+    padding: 40px 60px;
+    background-color: #efefef;
+}
+.box-row{
+    background-color: #ffffff;
+}
+.media-img{
+    width: 40px;
+    height: 40px;
+}
+.media-body{
+    font-size: 12px;
+    font-weight: normal;
+    color: #999
+}

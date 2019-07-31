@@ -29,7 +29,7 @@ public class PublishController {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("token")) {
                     String token = cookie.getValue();
-                    User user = userMapper.findToken(token);
+                    User user = userMapper.findByToken(token);
                     if (user != null) {
                         request.getSession().setAttribute("user", user);
                     }
@@ -69,7 +69,7 @@ public class PublishController {
             for (Cookie cookie : cookies){
                 if(cookie.getName().equals("token")){
                     String token = cookie.getValue();
-                    user = userMapper.findToken(token);
+                    user = userMapper.findByToken(token);
                     if(user != null){
                         request.getSession().setAttribute("user", user);
                     }
@@ -87,6 +87,7 @@ public class PublishController {
         publish.setTitle(title);
         publish.setDesc(desc);
         publish.setLab(lab);
+        publish.setUid(user.getId());
         publish.setCreatedAt(System.currentTimeMillis());
         publish.setUpdatedAt(publish.getCreatedAt());
         System.out.println(publish.toString());

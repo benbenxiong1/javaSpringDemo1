@@ -1,10 +1,11 @@
-package benbenxiong.java.demo.model;
+package benbenxiong.java.demo.dto;
 
+import benbenxiong.java.demo.model.User;
 import lombok.Data;
 
 @Data
-public class Publish {
-    private int id;
+public class PublishDTO {
+    private long id;
     private String title;
     private String desc;
     private String lab;
@@ -13,8 +14,7 @@ public class Publish {
     private int likeNum;
     private int attentionNum;
     private int replyNum;
-    private long   createdAt;
-    private long   updatedAt;
-
-
+    private long createdAt;
+    private long updatedAt;
+    private User user;
 }
