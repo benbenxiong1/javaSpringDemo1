@@ -50,6 +50,7 @@ public class AuthorizationController {
             User user = new User();
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));  //转换成String类型
+            user.setUrl(githubUser.getAvatar_url()); //用户头像
             user.setToken(UUID.randomUUID().toString());   //uuid
             user.setCreatedAt(System.currentTimeMillis());
             user.setUpdatedAt(user.getCreatedAt());
