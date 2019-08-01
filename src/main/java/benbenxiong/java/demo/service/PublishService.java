@@ -1,5 +1,6 @@
 package benbenxiong.java.demo.service;
 
+import benbenxiong.java.demo.dto.PageDTO;
 import benbenxiong.java.demo.dto.PublishDTO;
 import benbenxiong.java.demo.mapper.PublishMapper;
 import benbenxiong.java.demo.mapper.UserMapper;
@@ -20,8 +21,11 @@ public class PublishService {
     @Autowired
     private UserMapper userMapper;
 
-    public List<PublishDTO> getPublish(){
-        List<Publish> publishes = publishMapper.get();
+    public PageDTO<PublishDTO> getPublish(Integer page, Integer size){
+
+        PageDTO<PublishDTO> pageList = new PageDTO<PublishDTO>();
+        Integer count = publishMapper.count();
+        List<Publish> publishes = publishMapper.get(page, size);
         List<PublishDTO> publishDTOList = new ArrayList<>();
         for(Publish publish : publishes){
             User user = userMapper.findById(publish.getUid());
@@ -30,6 +34,8 @@ public class PublishService {
             publishDTO.setUser(user);
             publishDTOList.add(publishDTO);
         }
-        return publishDTOList;
+        pageList.setList(publishDTOList);
+        pageList.setPageData(count,page,size);
+        return pageList;
     }
 }
