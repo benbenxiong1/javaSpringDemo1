@@ -15,12 +15,15 @@ public class PageDTO<T> {
     private boolean endPage = false;     //最后一页
     private List<Integer> pageList = new ArrayList<Integer>();
     private int page; //当前页
+    private int count;
 
     public void setPageData(Integer count, Integer page, Integer size) {
         Integer pageCount = count / size;
         if(count % size !=0){
             pageCount += 1;
         }
+        this.count = pageCount;
+        this.page = page;
         //当不是第一页时显示上一页按钮
         if(page != 1){
             lastPage = true;
@@ -30,20 +33,26 @@ public class PageDTO<T> {
             nextPage = true;
         }
         //生成分页列表
-        for (int i=0; i<3; i++){
+        int x = 2;
+        pageList.add(page);
+        for (int i=1; i<=3; i++){
             if(page - i > 0){
                 pageList.add(0,page - i);
-            }
-            if(page + i <= pageCount){
-                pageList.add(page + i);
+                x--;
             }
         }
+        for (int y=1; y<=(3+x); y++){
+            if(page + y <= pageCount){
+                pageList.add(page + y);
+            }
+        }
+
         //当第一页不在分页列表数据时 显示跳转首页按钮
-        if(pageList.contains(1)){
+        if(!pageList.contains(1)){
             firstPage = true;
         }
         //当最后一页不在分页列表数据时 显示跳转最后一页页按钮
-        if(pageList.contains(pageCount)){
+        if(!pageList.contains(pageCount)){
             endPage = true;
         }
     }

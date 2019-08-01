@@ -77,15 +77,27 @@
             <div>
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
-                        <li th:if="${pageList.getFirstPage()}">
-                            <a href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
+                        <li th:if="${pageList.isFirstPage()}">
+                            <a href="#" aria-label="Previous" th:href="@{/page/{pages}(pages=1)}">
+                                <span aria-hidden="true">首页</span>
                             </a>
                         </li>
-                        <li th:each="page:${pageList.getPageList()}"><a href="#" th:text="${page}">1</a></li>
-                        <li>
-                            <a href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
+                        <li th:if="${pageList.isLastPage()}">
+                            <a href="#" aria-label="Previous" th:href="@{/page/{pages}(pages=${pageList.getPage() - 1})}">
+                                <span aria-hidden="true">上一页</span>
+                            </a>
+                        </li>
+                        <li th:each="page:${pageList.getPageList()}">
+                            <a href="#" th:href="@{/page/{pages}(pages=${page})}" th:text="${page}">1</a>
+                        </li>
+                        <li th:if="${pageList.isNextPage()}">
+                            <a href="#" aria-label="Next" th:href="@{/page/{pages}(pages=${pageList.getPage() + 1})}">
+                                <span aria-hidden="true">下一页</span>
+                            </a>
+                        </li>
+                        <li th:if="${pageList.isEndPage()}">
+                            <a href="#" aria-label="Next" th:href="@{/page/{pages}(pages=${pageList.getCount()})}">
+                                <span aria-hidden="true">尾页</span>
                             </a>
                         </li>
                     </ul>
