@@ -5,6 +5,7 @@ import benbenxiong.java.demo.dto.GithubUser;
 import benbenxiong.java.demo.mapper.UserMapper;
 import benbenxiong.java.demo.model.User;
 import benbenxiong.java.demo.provider.GithubProvier;
+import benbenxiong.java.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ public class AuthorizationController {
     private GithubProvier githubProvier;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code") String code,
@@ -52,9 +53,7 @@ public class AuthorizationController {
             user.setAccountId(String.valueOf(githubUser.getId()));  //转换成String类型
             user.setUrl(githubUser.getAvatar_url()); //用户头像
             user.setToken(UUID.randomUUID().toString());   //uuid
-            user.setCreatedAt(System.currentTimeMillis());
-            user.setUpdatedAt(user.getCreatedAt());
-            userMapper.insert(user);
+            userService.createOrUpdate(user);
             String cookie = user.getToken();
             response.addCookie(new Cookie("token", cookie));
 //            request.getSession().setAttribute("user", githubUser);  //设置session

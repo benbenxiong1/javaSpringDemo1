@@ -4,6 +4,7 @@ import benbenxiong.java.demo.mapper.PublishMapper;
 import benbenxiong.java.demo.mapper.UserMapper;
 import benbenxiong.java.demo.model.Publish;
 import benbenxiong.java.demo.model.User;
+import benbenxiong.java.demo.service.PublishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,22 +23,11 @@ public class PublishController {
     @Autowired
     private PublishMapper publishMapper;
 
+    @Autowired
+    private PublishService publishService;
+
     @GetMapping("/publish")
     public String publish(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null && cookies.length != 0) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    User user = userMapper.findByToken(token);
-                    if (user != null) {
-                        request.getSession().setAttribute("user", user);
-                    }
-                    break;
-                }
-            }
-        }
-
         return "publish";
     }
 
@@ -63,21 +53,7 @@ public class PublishController {
             model.addAttribute("error","标签不能为空");
             return "publish";
         }
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null && cookies.length != 0){
-            for (Cookie cookie : cookies){
-                if(cookie.getName().equals("token")){
-                    String token = cookie.getValue();
-                    user = userMapper.findByToken(token);
-                    if(user != null){
-                        request.getSession().setAttribute("user", user);
-                    }
-                    break;
-                }
-            }
-        }
-
+        User user = (User)request.getSession().getAttribute("user");
         if(user == null){
             model.addAttribute("error","用户未登陆");
             return "publish";
@@ -91,7 +67,7 @@ public class PublishController {
         publish.setCreatedAt(System.currentTimeMillis());
         publish.setUpdatedAt(publish.getCreatedAt());
         System.out.println(publish.toString());
-        publishMapper.insert(publish);
+//        publishMapper.insert(publish);
         model.addAttribute("susses","添加成功");
 
         return "/publish";
